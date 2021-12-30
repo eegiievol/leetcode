@@ -26,8 +26,7 @@ class Solution:
             return nums[0]
         
         mem={0:nums[0]}
-        withf = robber(nums, mem, le-2, 0) #houses [0:n-1]  
-        
+        withf = robber(nums, mem, le-2, 0) #houses [0:n-1]          
         mem={1:nums[1]}
         witho = robber(nums, mem, le-1, 1) #houses [1:n]
         

@@ -13,8 +13,7 @@ class Solution:
     def rob(self, nums: List[int]) -> int:
         def helper(nums, mem, n):            
             if n<1:
-                return mem[n]  
-            
+                return mem[n]              
             if n in mem:
                 return mem[n]
         

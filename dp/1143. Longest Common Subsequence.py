@@ -15,8 +15,7 @@ class Solution:
             if i==m or j==n:
                 return 0            
             if (i,j) in mem:
-                return mem[(i,j)]
-              
+                return mem[(i,j)]              
             #longest substr does NOT includes text1[i]  
             wo_i = dp(i+1,j)
             

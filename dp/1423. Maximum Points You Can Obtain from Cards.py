@@ -5,7 +5,6 @@
 # You have to take exactly k cards.
 
 # Your score is the sum of the points of the cards you have taken.
-
 # Given the integer array cardPoints and the integer k, return the maximum score you can obtain.
 
 class Solution:

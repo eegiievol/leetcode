@@ -12,7 +12,7 @@ class Solution:
             if (i,j) in mem:
                 return mem[(i,j)]
             #check left,top,top-left sub squares            
-            sm = min(dp(i-1,j), dp(i-1,j-1), dp(i,j-1)) + int(matrix[i][j])
+            sm = min(dp(i-1,j), dp(i-1,j-1), dp(i,j-1)) + 1
             mem[(i,j)]=sm
             return sm
                 

@@ -10,8 +10,7 @@
 # Return the maximum score after performing m operations.
 
 class Solution:
-    def maximumScore(self, nums: List[int], multipliers: List[int]) -> int:
-        
+    def maximumScore(self, nums: List[int], multipliers: List[int]) -> int:        
         
         def dp(m, i, j):
             mu=multipliers[m]            
