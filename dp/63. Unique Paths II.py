@@ -5,33 +5,21 @@
 # An obstacle and space is marked as 1 and 0 respectively in the grid.
 
 class Solution:
-    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
-        
-        def helper(mat, obs, coord, rs, cs):
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:        
+        def helper(coord, rs, cs):
             row, col = coord
             if row<0 or row>=rs or col<0 or col>=cs: #out of range             
-                return 0
-            
-            if coord in obs:
-                return 0
-            
+                return 0            
+            if obstacleGrid[row][col]==1:
+                return 0            
             if row==rs-1 and col==cs-1:
-                return 1            
-           
+                return 1 
             if coord in mat:
                 return mat[coord]
         
-            summ = helper(mat, obs, (row, col+1), rs, cs) + helper(mat, obs, (row+1, col), rs, cs)
+            summ = helper((row, col+1), rs, cs) + helper((row+1, col), rs, cs)
             mat[coord] = summ
-            return summ
-        
-        obstacles={}
-        rs,cs=len(obstacleGrid), len(obstacleGrid[0])
-        for i in range(rs):
-            for j in range(cs):
-                if obstacleGrid[i][j]==1:
-                    obstacles[(i,j)]=1
-        
+            return summ        
         
         mat = {}
-        return helper(mat, obstacles, (0,0), rs, cs)
+        return helper((0,0), len(obstacleGrid), len(obstacleGrid[0]))
