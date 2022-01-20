@@ -15,8 +15,7 @@ class Solution:
             root_b = findroot(b)
             if height[root_a]==height[root_b]:
                 height[root_a]+=1
-                parent[root_b] = root_a
-                parent[b] = root_a
+                parent[root_b] = root_a             
             elif height[root_a]>height[root_b]:
                 parent[root_b] = root_a  
             else:
