@@ -12,32 +12,29 @@
 
 class Solution:
     def orangesRotting(self, grid: List[List[int]]) -> int:
-        q=deque()
-        fresh = 0
-        rowsize, colsize= len(grid), len(grid[0])
+        directions = [(0,1), (1,0), (0,-1), (-1,0)]      
+        q=deque()        
+        rowsize,colsize = len(grid), len(grid[0])        
+        fresh=0
         for row in range(rowsize):
             for col in range(colsize):
-                if grid[row][col]==1:
-                    fresh +=1
                 if grid[row][col]==2:
-                    q.append((row,col)) #add rottens to queue
+                    q.append((row,col))
+                elif grid[row][col]==1:
+                    fresh+=1
         if fresh==0:
-            return 0
-        
-        directions = ((0,1),(1,0),(0,-1),(-1,0))
-        rotten = 0
-        minutes = -1
-        
+            return 0        
+        ans = -1
         while q:
             size = len(q)
+            ans+=1
             for _ in range(size):
-                row,col = q.popleft()   
-                for d in directions:
-                    newr,newc = row+d[0], col+d[1]
-                    if 0<=newr<rowsize and 0<=newc<colsize and grid[newr][newc]==1:
-                        rotten+=1
-                        grid[newr][newc]=2
-                        q.append((newr, newc))
-            minutes+=1
-        
-        return minutes if rotten==fresh else -1
+                r,c = q.popleft()  
+                for ro,co in directions:
+                    row, col = r+ro, c+co
+                    if 0<=row<rowsize and 0<=col<colsize and grid[row][col]==1:
+                        grid[row][col]=2
+                        q.append((row, col))
+                        fresh-=1           
+        return ans if fresh==0 else -1
+                    
