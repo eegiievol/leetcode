@@ -16,16 +16,14 @@
 
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        le=len(prices)
-        buy,sell = 0,0
-        lowest = 0
-        profit=0
-        for i in range(1,le):
-            if prices[i]<prices[lowest]:    #chance to buy at lower price
-                lowest = i                  #mark it and wait till sell price increase
-            elif prices[i]-prices[lowest]>prices[sell]-prices[buy]:
-                buy = lowest
-                sell = i
-              
-        return prices[sell]-prices[buy]
+        lowest = buy = sell = prices[0]         
+        
+        for price in prices[1:]:
+            if price-lowest>sell-buy:
+                buy, sell = lowest, price
+            elif price<lowest:
+                lowest = price
+        
+        return sell-buy
+
 
