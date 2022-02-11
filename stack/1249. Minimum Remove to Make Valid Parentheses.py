@@ -17,24 +17,22 @@
 
 class Solution:
     def minRemoveToMakeValid(self, s: str) -> str:
-        stack = []
-        s=list(s)        
-        mark = []
-        for i in range(len(s)):
-            if s[i]=='(':
-                stack.append(i)
-            elif s[i]==')':
-                if not stack:                   
-                    mark.append(i)         
+        stack = []        
+        ans = []        
+        ctr=0
+        for i,val in enumerate(s):
+            if val=='(':
+                stack.append(ctr)                
+            elif val==')':
+                if not stack:
+                    continue
                 else:
                     stack.pop()
-    
-        #remove marked
-        for i in mark:
-            s[i] = ''
+            ans.append(val) 
+            ctr+=1
         
-        #remove elements in stack
-        while stack:    
-            s[stack.pop()]=''
+        while stack:
+            removed = stack.pop()
+            ans.pop(removed)
+        return "".join(ans)
         
-        return "".join(s)

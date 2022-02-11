@@ -5,34 +5,23 @@
 
 class Solution:
     def findCircleNum(self, isConnected: List[List[int]]) -> int:        
-        def findroot(node):            
-            while parent[node]!=node:
-                node = parent[node]
-            return node
-        
-        def union(a, b):
-            root_a = findroot(a)
-            root_b = findroot(b)
-            if height[root_a]==height[root_b]:
-                height[root_a]+=1
-                parent[root_b] = root_a             
-            elif height[root_a]>height[root_b]:
-                parent[root_b] = root_a  
-            else:
-                parent[root_a] = root_b
-        
-        parent = {node:node for node in range(len(isConnected))}
-        height = [0]*len(isConnected)
-        
-        for i in range(len(isConnected)-1):
-            for j in range(i+1, len(isConnected)): 
-                if isConnected[i][j]==1:
-                    union(i,j)      
-                    
-        disjoints = {}
-        for i in range(len(isConnected)):
-            root = findroot(i)
-            disjoints[root] = disjoints.get(root, 1)
-        
-        return len(disjoints)
+        def find(node):
+            if head[node]==node:
+                return node
+            head[node] = find(head[node])
+            return head[node]
+        def union(n1,n2):
+            nonlocal components
+            r1,r2 = find(n1), find(n2)
+            if r1!=r2:
+                components -= 1
+                head[r2]=r1
 
+        head = [i for i in range(len(isConnected))]
+        components = len(isConnected) 
+        for i in range(len(isConnected)):
+            for j in range(len(isConnected[0])):
+                if i!=j and isConnected[i][j]==1:
+                    union(i, j)
+        return components
+    

@@ -16,20 +16,22 @@ You must write an algorithm with O(log n) runtime complexity.
 
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
-        begin,end = 0, len(nums) - 1 
-        while begin <= end:
-            mid = (begin + end)//2
-            if nums[mid] == target:
+        l,r=0,len(nums)-1
+        
+        while l<=r:            
+            mid = (l+r)//2
+            if nums[mid]==target:
                 return mid
-            if nums[mid] >= nums[begin]: 
-                if target<nums[mid] and target>=nums[begin]:
-                    end=mid-1
+            
+            if nums[mid]>=nums[l]:
+                if nums[l]<=target<nums[mid]:
+                    r=mid-1
                 else:
-                    begin=mid+1
+                    l=mid+1
             else:
-                if target>nums[mid] and target<=nums[end]:
-                    begin=mid+1
+                if nums[mid]<target<=nums[r]:
+                    l=mid+1
                 else:
-                    end=mid-1
-                
+                    r=mid-1
+           
         return -1
