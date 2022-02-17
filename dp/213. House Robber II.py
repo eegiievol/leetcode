@@ -11,23 +11,19 @@
 
 class Solution:    
     def rob(self, nums: List[int]) -> int:
-        def robber(nums, mem, n, low):            
-            if n<=low:
-                return mem.get(n,0)
-            
+        def robber(mem, n, low):            
+            if n<low:
+                return 0
+            if n==low:
+                return nums[low]
             if n in mem:
                 return mem[n]            
-            max_prof = max(robber(nums, mem, n-2, low)+nums[n], robber(nums, mem, n-1, low))
+            max_prof = max(robber(mem, n-2, low)+nums[n], robber(mem, n-1, low))
             mem[n] = max_prof
             return max_prof  
         
-        le = len(nums)
-        if le==1:
+        if len(nums)==1:
             return nums[0]
         
-        mem={0:nums[0]}
-        withf = robber(nums, mem, le-2, 0) #houses [0:n-1]          
-        mem={1:nums[1]}
-        witho = robber(nums, mem, le-1, 1) #houses [1:n]
-        
-        return max(withf, witho)
+        return max(robber({}, len(nums)-2, 0), \
+                   robber({}, len(nums)-1, 1))
