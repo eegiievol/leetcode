@@ -7,19 +7,11 @@
 
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
-        def helper(mem, h, w):
-            if h==0 or w==0:
-                return 0   
-            if h==1 and w==1:
+        @cache
+        def dp(row,col):
+            if row>=m or col>=n:
+                return 0
+            if row==m-1 or col==n-1:
                 return 1
-            
-            coordinate = (h,w)
-            if coordinate in mem:
-                return mem[coordinate]
-        
-            ans = helper(mem, h, w-1) + helper(mem, h-1, w)
-            mem[coordinate] = ans
-            return ans
-    
-        mem = {}
-        return helper(mem, m, n)
+            return dp(row+1,col)+dp(row,col+1)
+        return dp(0,0)
