@@ -12,36 +12,51 @@
 # Explanation: There are a total of 2 courses to take. 
 # To take course 1 you should have finished course 0. So it is possible.
 
+#SOLUTION 1: Grey Node Algorithm for Cycle detect
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:        
-        def dfs(node):            
-            if stat[node]==1:
-                stat[node]=2
-                return False  
+        def dfs(node):
+            if status[node]==1: #grey node
+                return False
+            if status[node]==2:
+                return True
             
-            if stat[node]==2: #black node
-                return True            
-            if len(mat[node])==0: #means leaf node
-                return True        
-            stat[node]=1 #visiting node
-            for nei in mat[node]:
+            status[node]=1
+            for nei in neighbors[node]:
                 if not dfs(nei):
                     return False
-            stat[node]=2 #processed node
+            status[node]=2
             return True
         
-        if not prerequisites:
-            return True
+        status = {i:0 for i in range(numCourses)}
+        neighbors = defaultdict(list)
+        for c,p in prerequisites:
+            neighbors[p].append(c)
         
-        mat=defaultdict(list)
-        stat={}
-        for cour,preq in prerequisites:
-            mat[preq].append(cour)        
-        
-        for node in range(numCourses):           
-            stat[node]=0
-        
-        for node in range(numCourses):
-            if not dfs(node):
+        for i in range(numCourses):
+            if not dfs(i):
                 return False
         return True
+
+#SOLUTION 2: Topological sort algorithm for Cycle detect
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        neighbors = defaultdict(list)
+        indegree = [0 for _ in range(numCourses)]
+        for c,p in prerequisites:
+            indegree[c] += 1
+            neighbors[p].append(c)
+        q = deque()
+        for c in range(numCourses):
+            if indegree[c]==0: q.append(c)
+        
+        #topological sort algorithm
+        coursesTaken = 0
+        while q:
+            course = q.popleft()
+            coursesTaken += 1
+            for nei in neighbors[course]:
+                indegree[nei] -= 1
+                if indegree[nei] == 0: q.append(nei)
+        
+        return True if coursesTaken == numCourses else False
