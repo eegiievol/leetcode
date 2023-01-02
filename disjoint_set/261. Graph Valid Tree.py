@@ -12,50 +12,32 @@
 
 class Solution:
     def validTree(self, n: int, edges: List[List[int]]) -> bool:
-        def find(v):
-            while parent[v]!=v:
-                v=parent[v]
-            return v        
-        def union(v1,v2):
-            r1,r2 = find(v1), find(v2)
+        #union find
+        def find(node):
+            if self.root[node]==node:
+                return node
+            self.root[node] = find(self.root[node]) 
+            return self.root[node]
+        def union(n1, n2):
+            r1, r2 = find(n1), find(n2)
             if r1==r2:
-                return False
-            
-            if height[r1]==height[r2]:
-                height[r1]+=1
-                parent[r2]=r1
-            elif height[r1]>height[r2]:
-                parent[r2]=r1
+                return False #detect loop
+            if self.height[r1]>self.height[r2]:
+                self.root[r2] = r1
+                self.height[r1] += 1
             else:
-                parent[r1]=r2            
-            return True    
+                self.root[r1] = r2
+                self.height[r2] += 1
+            self.union_sets -=1
+
+            return True
         
-        if not edges:
-            if n == 1:
-                return True 
-            else:
-                return False 
-        if len(edges)<n-1:
-            return False
-        
-        height , parent = {}, {}
-        for n in range(n):
-            height[n] = 0
-            parent[n]=n
-        
+        self.height = [0 for i in range(n)]
+        self.root = [i for i in range(n)]
+        self.union_sets = n
+
         for v1,v2 in edges:
             if not union(v1,v2):
                 return False
-           
-        #check if there are more than 1 connected components
-        components = []
-        for node in range(n):
-            root = find(node)
-            if root not in components:
-                components.append(root)
-            if len(components)>1:
-                return False
-        
-        return True
-            
-            
+
+        return self.union_sets==1
