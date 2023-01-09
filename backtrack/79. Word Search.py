@@ -7,23 +7,27 @@
 # Output: true
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
-        def backtrack(r,c,i):
-            visited[r][c]=True
-            if i==len(word)-1 and board[r][c]==word[len(word)-1]:
+
+        def backtrack(visited, index, coordinate):
+            row, col = coordinate
+            visited[row][col] = 1
+            if index==len(word)-1:
                 return True
-            directions = [(0,1),(1,0),(-1,0),(0,-1)]
-            for ro, co in directions:
-                if 0<=r+ro<len(board) and 0<=c+co<len(board[0]) and board[r+ro][c+co]==word[i+1] and not visited[r+ro][c+co]:
-                    if backtrack(r+ro, c+co, i+1):
+
+            for r,c in [(1,0),(0,1),(-1,0),(0,-1)]:
+                newrow, newcol = row+r, col+c
+                if 0<=newrow<height and 0<=newcol<width and \
+                        board[newrow][newcol]==word[index+1] and not visited[newrow][newcol]:
+                    if backtrack(visited, index+1, (newrow, newcol)):
                         return True
-            visited[r][c]=False        
+            visited[row][col] = 0
             return False
-    
-        
-        visited = [[False]*len(board[0]) for _ in range(len(board))]
-        for row in range(len(board)):
-            for col in range(len(board[0])):
-                if board[row][col]==word[0]:
-                    if backtrack(row,col,0):
-                        return True
+
+        height, width = len(board), len(board[0]) 
+        visited = [[0]*width for i in range(height)]
+
+        for i in range(height):
+            for j in range(width):
+                if board[i][j]==word[0] and backtrack(visited, 0, (i,j)):
+                    return True
         return False
