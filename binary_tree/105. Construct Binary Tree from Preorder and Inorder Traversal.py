@@ -15,17 +15,16 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:        
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
         def helper(l, r):
-            if l>r: return None            
-            nonlocal p_index
-            root = TreeNode(preorder[p_index])            
-            mid = inorder.index(preorder[p_index])                       
-            p_index+=1
-            
-            root.left = helper(l, mid-1)               
-            root.right = helper(mid+1, r)
-            return root
+            if l>r:
+                return None
+            cur = TreeNode(preorder[self.i])
+            root_index = inorder.index(preorder[self.i])
+            self.i += 1
+            cur.left = helper(l, root_index-1)
+            cur.right = helper(root_index+1, r)
+            return cur
         
-        p_index = 0
-        return helper(0, len(inorder)-1)
+        self.i = 0
+        return helper(0, len(preorder)-1)
