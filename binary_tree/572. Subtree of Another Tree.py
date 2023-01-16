@@ -41,3 +41,34 @@ class Solution:
                 if isSame(head, subRoot):
                     return True
         return False
+
+#RECURSIVE
+#============================================
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
+        def is_same(root, sub):
+            if root and sub:
+                return root.val == sub.val and is_same(root.left, sub.left) \
+                                    and is_same(root.right, sub.right)
+            else:
+                if root or sub:
+                    return False
+                else:
+                    return True
+        def find(root, sub):
+            a = False
+            if root:
+                if root.val == sub.val:
+                    a |= is_same(root, sub)
+                a |= find(root.left, sub) 
+                a |= find(root.right, sub)
+            return a
+    
+        return find(root, subRoot)
