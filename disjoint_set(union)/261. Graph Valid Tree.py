@@ -12,32 +12,22 @@
 
 class Solution:
     def validTree(self, n: int, edges: List[List[int]]) -> bool:
-        #union find
+        
         def find(node):
-            if self.root[node]==node:
+            if root[node] == node:
                 return node
-            self.root[node] = find(self.root[node]) 
-            return self.root[node]
+            root[node] = find(root[node])
+            return root[node]
+
         def union(n1, n2):
             r1, r2 = find(n1), find(n2)
-            if r1==r2:
-                return False #detect loop
-            if self.height[r1]>self.height[r2]:
-                self.root[r2] = r1
-                self.height[r1] += 1
-            else:
-                self.root[r1] = r2
-                self.height[r2] += 1
-            self.union_sets -=1
+            if r1 != r2:
+                self.sets -= 1
+                root[r1] = r2
 
-            return True
+        root = [i for i in range(n)]
+        self.sets = n
+        for s,d in edges:
+            union(s, d)
         
-        self.height = [0 for i in range(n)]
-        self.root = [i for i in range(n)]
-        self.union_sets = n
-
-        for v1,v2 in edges:
-            if not union(v1,v2):
-                return False
-
-        return self.union_sets==1
+        return self.sets == 1 and len(edges)==n-1
