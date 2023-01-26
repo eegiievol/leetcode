@@ -23,33 +23,25 @@ The length of this path is 3, so 3 is returned.
 '''
 import heapq
 class Solution:
-    def longestPath(self, parent: List[int], s: str) -> int:
+    def longestUnivaluePath(self, root: Optional[TreeNode]) -> int:
         def dfs(root):
-            heap = []
-            for child in self.children[root]:
-                r = dfs(child)
-                if s[child] != s[root]:
-                    heapq.heappush(heap, -r)
-                    
-            #in case longest path root is current node
-            longest = second_longest = 0
+            if not root:
+                return 0
+            l, r = dfs(root.left), dfs(root.right)
+            left = right = 0 
+            
+            if root.left and root.left.val==root.val:
+                left = l
+            if root.right and root.right.val==root.val:
+                right = r
 
-            if heap:
-                longest = -heapq.heappop(heap)
-            if heap:
-                second_longest = -heapq.heappop(heap)
-            self.ans = max(self.ans, longest + second_longest+1)
+            #in case longest path root is current node
+            self.ans = max(self.ans, left+right)
 
             #in case longest path is root is not current node
-            return longest + 1
+            return max(left, right) + 1
 
-        self.children = collections.defaultdict(list)
-        for child, parent in enumerate(parent):
-            if parent >= 0:
-                self.children[parent].append(child)
-
-        self.ans = 0
-        dfs(0)
+        self.ans = 0  
+        if root:
+            dfs(root)
         return self.ans
-
-    
