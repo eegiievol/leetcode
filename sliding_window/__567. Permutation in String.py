@@ -16,11 +16,10 @@ Input: s1 = "ab", s2 = "eidboaoo"
 Output: false
  
 '''
-
+import collections
 class Solution:
     def checkInclusion(self, s1: str, s2: str) -> bool:
         reg = collections.Counter(s1)
-        le = len(reg)
         
         cur = {}
         j = 0
@@ -28,7 +27,7 @@ class Solution:
         for i,ch in enumerate(s2):
             cur[ch] = cur.get(ch, 0) + 1
             
-            #if moved i resulter ctr++
+            #i just caused ctr to increment
             if cur[ch] == reg[ch]: 
                 ctr += 1
 
@@ -36,11 +35,12 @@ class Solution:
             if i-j >= len(s1):
                 cur[s2[j]] -= 1
 
-                #moved j resulted ctr--
+                #j just caused ctr to decrement
                 if cur[s2[j]] == reg[s2[j]] - 1:
                     ctr -= 1
                 j+=1
-            if ctr == le:
+            #final check
+            if ctr == len(reg):
                 return True
 
         return False
