@@ -55,6 +55,11 @@ class Solution:
                 break
 
         return min_deviation
-        
+
+'''
+By transforming all odd numbers to even numbers, we can always divide even numbers by 2, so the maximum value in the array can be reduced to its minimum possible value. We also keep track of the minimum value in the array, since we can only increase it by multiplying it by 2.
+
+We then repeatedly pop the maximum value from the priority queue, which guarantees that we are always reducing the maximum value in the array. If the maximum value is odd, we can no longer divide it by 2, so we break out of the loop. Otherwise, we divide the maximum value by 2, which reduces the maximum value, and update the minimum value accordingly.
+'''
         
 
