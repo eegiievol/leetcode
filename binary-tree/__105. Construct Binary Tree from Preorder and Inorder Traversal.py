@@ -22,6 +22,7 @@ class Solution:
             cur = TreeNode(preorder[self.i])
             root_index = inorder.index(preorder[self.i])
             self.i += 1
+            
             cur.left = helper(l, root_index-1)
             cur.right = helper(root_index+1, r)
             return cur
