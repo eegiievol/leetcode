@@ -22,7 +22,6 @@ class Solution:
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
         stack = []
         ans = [0] * len(temperatures)
-        print(ans)
 
         for i,ch in enumerate(temperatures):
             if stack and ch > stack[-1][1]:
