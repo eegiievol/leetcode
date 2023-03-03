@@ -28,59 +28,61 @@
 # lRUCache.get(1);    // return -1 (not found)
 # lRUCache.get(3);    // return 3
 # lRUCache.get(4);    // return 4
-
-class DLinkedNode(): 
-    def __init__(self, key, val):
-        self.key = key
-        self.value = val
+class DoubleList:
+    def __init__(self):
+        self.key = 0
+        self.val = 0
         self.prev = None
-        self.next = None       
+        self.next = None
 
 class LRUCache:
-    def __init__(self, capacity: int):
-        self.size = 0
-        self.capacity = capacity
-        self.head = DLinkedNode(-1,-1)
-        self.tail = DLinkedNode(-1,-1)
-        self.head.next = self.tail
-        self.tail.prev = self.head
-        self.hashmap = {}
 
-    def _add(self, node):
-        node.prev = self.tail.prev
+    def __init__(self, capacity: int):
+        self.cap = capacity
+        self.size = 0
+        self.head = DoubleList()
+        self.tail = DoubleList()
+        self.head.next, self.tail.prev = self.tail, self.head
+        self.hmap = {}
+
+    def _remove(self, node):
+        node.prev.next, node.next.prev = node.next, node.prev
+
+    def _add_node(self, node):
         node.next = self.tail
-        self.tail.prev.next = node
-        self.tail.prev = node
-    
-    def _delete(self, node):
-        node.next.prev = node.prev
-        node.prev.next = node.next        
-    
+        node.prev = self.tail.prev
+        self.tail.prev.next, self.tail.prev = node, node
+
     def get(self, key: int) -> int:
-        if key in self.hashmap:
-            node = self.hashmap[key]
-            self._delete(node)
-            self._add(node)
-            return node.value
+        if key in self.hmap:
+            node = self.hmap[key]
+            self._remove(node)
+            self._add_node(node)
+            return node.val
         else:
             return -1
 
     def put(self, key: int, value: int) -> None:
-        node = self.hashmap.get(key, None)        
-        if node:
-            self._delete(node)
-            self._add(node)
-            node.value = value
-        else:    
-            newnode = DLinkedNode(key, value) 
-            self.hashmap[key] = newnode
-            self._add(newnode)
-            self.size+=1       
+        if key in self.hmap:
+            #update
+            node = self.hmap[key]
+            node.val = value
+            self._remove(node)
+            self._add_node(node)
+        else:
+            #new node
+            node = DoubleList()
+            node.key = key
+            node.val = value
+            self._add_node(node)
+            self.hmap[key] = node
 
-        if self.size>self.capacity:
-            del self.hashmap[self.head.next.key]
-            self._delete(self.head.next)
-            self.size-=1
+            self.size += 1
+            if self.size > self.cap:
+                to_del = self.head.next
+                self._remove(to_del)
+                del self.hmap[to_del.key]
+                self.size -= 1
         
 
 # Your LRUCache object will be instantiated and called as such:
