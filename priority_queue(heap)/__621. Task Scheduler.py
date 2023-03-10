@@ -49,7 +49,7 @@ class Solution:
             tmp = []
             idle = 0
             ans += (n+1)
-            for i in range(n+1):
+            for _ in range(n+1):
                 if heap:
                     mx = -heapq.heappop(heap)
                     if mx>1:
