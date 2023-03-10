@@ -30,7 +30,7 @@ wordDictionary.search("b.."); // return True
 class TreeNode:
     def __init__(self):
         self.children = {}
-        self.end = False
+        self.end = False    # is leaf
 
 class WordDictionary:
 
