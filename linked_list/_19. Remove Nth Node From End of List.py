@@ -18,22 +18,22 @@ Output: [1,2,3,5]
 
 class Solution:
     def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
-        sentinel = ListNode(0)
-        sentinel.next = head
-        left = right = sentinel
-    
-        #move right until distance(left,right)==n
-        for _ in range(n):
-            if right.next:
-                right = right.next
-            else:
-                return []
+        
+        sentinel = ListNode(val=0, next=head)
+        cur = sentinel
 
-        #move window
-        while right.next:
-            left = left.next
-            right = right.next
-            
-        #remove
-        left.next = left.next.next
+        for _ in range(n):
+            cur = cur.next
+            if not cur:
+                return None
+
+        l, r = sentinel, cur
+        
+        while r.next:
+            l = l.next
+            r = r.next
+        
+        l.next = l.next.next
+
         return sentinel.next
+       
