@@ -34,27 +34,23 @@ minStack.getMin(); // return -2
 class MinStack:
 
     def __init__(self):
-        self.min = []
-        self.stack = [0] * 30000
-        self.pointer = 0
+        self.minstack = []
+        
 
     def push(self, val: int) -> None:
-        self.stack[self.pointer] = val
-        self.pointer += 1
-        if not self.min or val < self.min[-1][1]:
-            self.min.append((val, val))
+        if not self.minstack:
+            self.minstack.append((val, val))
         else:
-            self.min.append((val, self.min[-1][1]))
-        
+            self.minstack.append((val, min(val, self.minstack[-1][1])))
+
     def pop(self) -> None:
-        self.pointer -= 1 
-        self.min.pop()
+        return self.minstack.pop()[0]
 
     def top(self) -> int:
-        return self.stack[self.pointer-1]        
+        return self.minstack[-1][0]
 
     def getMin(self) -> int:
-        return self.min[-1][1]
+        return self.minstack[-1][1]
         
 
 
