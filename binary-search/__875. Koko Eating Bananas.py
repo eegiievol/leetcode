@@ -26,6 +26,7 @@ Input: piles = [30,11,23,4,20], h = 6
 Output: 23
 '''
 
+#____SOLUTION 1
 class Solution:
     def minEatingSpeed(self, piles: List[int], h: int) -> int:
         def find_hour(k):
@@ -44,3 +45,22 @@ class Solution:
             else:
                 l = speed + 1
         return l
+
+#____SOLUTION 2
+class Solution:
+    def minEatingSpeed(self, piles: List[int], h: int) -> int:
+        def can_finish(k, h):
+            hours = 0
+            for pile in piles:
+                hours += math.ceil(pile/k)
+            return hours <= h
+
+        l, r = 1, max(piles)
+        while l<r:
+            mid = (l+r)//2
+            if can_finish(mid, h):
+                r = mid
+            else:
+                l = mid + 1
+        return l
+
