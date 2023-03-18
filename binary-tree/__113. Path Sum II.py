@@ -19,20 +19,29 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
     def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
-        def helper(root, arr, target):
-            if not root:
-                return 
+        def helper(node, target, cur):
+            if not node:
+                return
+
+            #shallow copy
+            tmp = cur[:]
             
-            if not root.left and not root.right and root.val == target:
-                ans.append(arr+[root.val])
-                return 
-            
-            helper(root.left, arr+[root.val], target-root.val)
-            helper(root.right, arr+[root.val], target-root.val)
-        
+            tmp.append(node.val)
+            if node.val == target and not (node.left or node.right):
+                ans.append(tmp)
+            else:
+                helper(node.left, target-node.val, tmp)
+                helper(node.right, target-node.val, tmp)
+
         ans = []
-        helper(root, [], targetSum)
+        helper(root, targetSum, [])
         return ans
 
