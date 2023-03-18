@@ -31,21 +31,15 @@ class Solution:
 
         if not nums:
             return 0
-
         #remove duplicates        
         reg = set(nums)
-
         #union find
         root = {}
         for num in reg:
             root[num] = num
-        
         for num in reg:
             if num-1 in reg:
                 union(num, num-1)
-            if num+1 in reg:
-                union(num, num+1)
-        
         #ans
         ctr = {}
         for num in reg:
@@ -53,3 +47,4 @@ class Solution:
             ctr[r] = ctr.get(r, 0) + 1
         
         return max(ctr.values())
+
