@@ -13,27 +13,24 @@
 
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        def doTopologicalSort(q, numCourses):
-            topsort = []            
-            while q:
-                node = q.popleft()                
-                for nei in hmap[node]:
-                    inc[nei]-=1
-                    if inc[nei]==0:
-                        q.append(nei)
-                topsort.append(node)         
-            #if we cant topological sort all nodes, there is a CYCLE
-            return topsort if len(topsort)==numCourses else []             
-        
-        hmap = defaultdict(list)
-        inc = {} #incoming edge count        
+        indegree = [0 for _ in range(numCourses)]
+        neighbors = defaultdict(list)
+
         for d,s in prerequisites:
-            hmap[s].append(d)
-            inc[d] = inc.get(d, 0) + 1
-            
-        #if there are nodes with no incoming edges, add it to queue        
+            neighbors[s].append(d)
+            indegree[d] += 1
+        
         q = deque()
-        for node in range(numCourses):
-            if node not in inc:
-                q.append(node)        
-        return doTopologicalSort(q, numCourses)
+        [q.append(i) for i in range(numCourses) if indegree[i] == 0]
+        ans = []
+
+        taken = 0
+        while q:
+            popped = q.popleft()
+            ans.append(popped)
+            for nei in neighbors[popped]:
+                indegree[nei] -= 1
+                if indegree[nei] == 0:
+                    q.append(nei)
+
+        return ans if len(ans) == numCourses else []
