@@ -26,16 +26,15 @@ wordDictionary.search("bad"); // return True
 wordDictionary.search(".ad"); // return True
 wordDictionary.search("b.."); // return True 
 '''
-
 class TreeNode:
     def __init__(self):
         self.children = {}
-        self.end = False    # is leaf
+        self.end = False
 
 class WordDictionary:
 
     def __init__(self):
-        self.root = TreeNode()
+        self.root = TreeNode()        
 
     def addWord(self, word: str) -> None:
         cur = self.root
@@ -44,27 +43,22 @@ class WordDictionary:
                 cur.children[ch] = TreeNode()
             cur = cur.children[ch]
         cur.end = True
-    
-    def __helper(self, node, word, i):
+
+    def __helper(self, cur, word, i):
         if i>=len(word):
-            if node.end:
-                return True
-            else:
-                return False
-        
-        if word[i] == '.':
-            for child in node.children:
-                if self.__helper(node.children[child], word, i+1):
+            return cur.end
+        ch = word[i]
+
+        if ch == '.':
+            for child in cur.children:
+                if self.__helper(cur.children[child], word, i+1):
                     return True
-        else:
-            if word[i] in node.children:
-                return self.__helper(node.children[word[i]], word, i+1)
-        
+        elif ch in cur.children:
+            return self.__helper(cur.children[ch], word, i+1)
         return False
 
     def search(self, word: str) -> bool:
         return self.__helper(self.root, word, 0)
-
 
 # Your WordDictionary object will be instantiated and called as such:
 # obj = WordDictionary()
