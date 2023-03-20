@@ -29,6 +29,9 @@ Output: [2,3,6,7,1,5,4]
 #         self.next = next
 class Solution:
     def oddEvenList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        #Put the odd nodes in a linked list and the even nodes in another. 
+        #Then link the evenList to the tail of the oddList.
+
         if not head or not head.next:
             return head
         
