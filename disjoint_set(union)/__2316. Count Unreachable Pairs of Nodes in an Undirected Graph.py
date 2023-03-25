@@ -42,13 +42,13 @@ class Solution:
             union(s,d)
         
         #group nodes by their root
-        unions_reg = defaultdict(list)
+        unions_reg = {}
         for node in range(n):
             r = find(node)
-            unions_reg[r].append(node)
+            unions_reg[r] = unions_reg.get(r, 0) + 1
         
         #put number of nodes in unions into list
-        union_list = [len(unions_reg[key]) for key in unions_reg]
+        union_list = list(unions_reg.values())
         
         #count unreachable pairs 
         ans = 0
@@ -58,3 +58,4 @@ class Solution:
             prev += union_list[i] 
         
         return ans
+       
