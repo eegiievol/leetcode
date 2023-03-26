@@ -24,14 +24,17 @@ Output: -1
 Explanation: There are no cycles in this graph.
  
 '''
+
 class Solution:
     def longestCycle(self, edges: List[int]) -> int:
         n = len(edges)
+        #do topological sort (Khan)
+        #mark visited nodes. 
+        #nodes in a cycle cannot be visited in Khan's algo
         indegree = [0 for _ in range(n)]
         for i in range(n):
             if edges[i]>=0:
                 indegree[edges[i]] += 1
-
         q = deque()
         for i in range(n):
             if indegree[i] == 0:
@@ -47,6 +50,7 @@ class Solution:
                 if indegree[nei] == 0:
                     q.append(nei)
         
+        #dfs on connected components
         ans = 0
         count = 0
         for i in range(n):
