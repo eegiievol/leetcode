@@ -17,16 +17,18 @@ Example 2:
 Input: matrix = [[-5]], k = 1
 Output: -5
 '''
-
 class Solution:
     def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+        #heapify
         heap = []
-
         rowlen, collen = len(matrix), len(matrix[0])
         for i in range(rowlen):
             heappush(heap, (matrix[i][0], i))
         
+        #column pointers
         ptrs = [0 for i in range(rowlen)]
+
+        #pop heap k times while incrementing col pointers in a same row
         for _ in range(k):
             popped, row = heappop(heap)
             if ptrs[row]<rowlen-1:
