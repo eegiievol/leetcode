@@ -16,7 +16,7 @@ class Solution:
         
         #heappop(heap), heappush(heap, (ctr, num))
         for el, count in freq.items():
-            heappush(heap, (count*(-1), el))
+            heappush(heap, -count, el))
 
         #here
             
