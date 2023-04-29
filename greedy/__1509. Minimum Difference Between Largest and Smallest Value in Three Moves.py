@@ -1,13 +1,4 @@
 '''
-Medium
-1.4K
-164
-company
-Google
-company
-Amazon
-company
-Microsoft
 You are given an integer array nums.
 
 In one move, you can choose one element of nums and change it to any value.
