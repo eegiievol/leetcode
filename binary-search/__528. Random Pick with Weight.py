@@ -48,27 +48,23 @@ class Solution:
 
     def __init__(self, w: List[int]):
         self.prefix = []
-
         cur = 0
         for weight in w:
             cur += weight
             self.prefix.append(cur)
         self.total = cur
+        print(self.prefix)
 
     def pickIndex(self) -> int:
         rand = randint(1, self.total)
         l, r = 0, len(self.prefix)-1
-        
-        while l <= r:
+        while l < r:
             mid = (l+r)//2
-            if self.prefix[mid] == rand:
-                return mid
-            elif self.prefix[mid] > rand:
-                r = mid - 1
-            else:
+            if self.prefix[mid] < rand:
                 l = mid + 1
+            else:
+                r = mid
         return l
-        
 
 
 # Your Solution object will be instantiated and called as such:
