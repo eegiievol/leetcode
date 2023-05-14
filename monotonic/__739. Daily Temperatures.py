@@ -17,18 +17,18 @@ Example 3:
 Input: temperatures = [30,60,90]
 Output: [1,1,0]
 '''
- 
 class Solution:
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
         stack = []
-        ans = [0] * len(temperatures)
+        n = len(temperatures)
+        ans = [0] * n
 
-        for i,ch in enumerate(temperatures):
-            if stack and ch > stack[-1][1]:
-                while stack and stack[-1][1] < ch:
-                    j, val = stack.pop()
-                    ans[j] = i-j
-            stack.append((i,ch))
+        for i in range(n):
+            while stack and temperatures[stack[-1]] < temperatures[i]:
+                j = stack.pop()
+                ans[j] = i-j
+            stack.append(i)
             
         return ans
+        
         
