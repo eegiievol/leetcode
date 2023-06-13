@@ -14,7 +14,7 @@
 
 #SOLUTION 1: Grey Node Algorithm for Cycle detect
 class Solution:
-    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:        
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         def dfs(node):
             if status[node]==1: #grey node
                 return False
