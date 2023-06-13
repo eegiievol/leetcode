@@ -10,6 +10,11 @@ For example, the itinerary ["JFK", "LGA"] has a smaller lexical order than ["JFK
 You may assume all tickets form at least one valid itinerary. You must use all the tickets once and only once.
 '''
 
+
+# In Eulerian paths, there must exist a start node (which is JFK in this problem) and a end node.
+# So, the algorithm is to find the end node first and delete the path to this node(backtrack), 
+# meanwhile using sort to guarantee lexical order.
+
 class Solution(object):
     def findItinerary(self, tickets):        
         
