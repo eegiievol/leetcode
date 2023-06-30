@@ -20,22 +20,19 @@
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         
-        
-        def dp(target, candidates): 
-            prep = []
-            for candidate in candidates:
-                if candidate == target:
-                    prep.append([candidate])                    
-                elif candidate<target:
-                    resp=dp(target-candidate, candidates)
-                    for arr in resp:                        
-                        prep.append(arr+[candidate])
-            return prep        
-        
-        arr = dp(target, candidates)
+        def backtrack(index, target, cur):
+            if target == 0:
+                ans.append(cur[:])
+                return
+            elif target<0:
+                return
+            
+            for i in range(index, len(candidates)):
+                cur.append(candidates[i])
+                backtrack(i, target-candidates[i], cur)
+                cur.pop()
+
         ans = []
-        for a in arr:
-            a.sort()
-            if a not in ans:
-                ans.append(a)
+        candidates.sort()
+        backtrack(0, target, [])
         return ans
