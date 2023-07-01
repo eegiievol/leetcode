@@ -13,26 +13,30 @@ Output: 8
 Explanation: The figure above represents the given tree where red vertices have an apple. One optimal path to collect all apples is shown by the green arrows.  
 '''
 
-import collections
 class Solution:
     def minTime(self, n: int, edges: List[List[int]], hasApple: List[bool]) -> int:
-        def dfs(root):
-            visited.add(root)
-            val = 0
-            for child in neighbor[root]:
-                if child not in visited:
-                    val += dfs(child)
-            if not val:
-                val = hasApple[root]
+        def dfs(root, adj_list, hasApple):
+            total = 0
+            for nei in adj_list[root]:
+                if not visited[nei]:
+                    visited[nei] = True
+                    total += dfs(nei, adj_list, hasApple)
+            if total > 0:
+                return total + 1
             else:
-                val += 1
-            return val        
-        
-        visited = set()
-        neighbor = collections.defaultdict(list)
-        for parent, child in edges:
-            neighbor[parent].append(child)
-            neighbor[child].append(parent)
-        ans = dfs(edges[0][0]) 
-        return (ans-1)*2 if ans else 0
+                return hasApple[root]
+
+        adj_list = defaultdict(list)
+        for s,d in edges:
+            adj_list[s].append(d)
+            adj_list[d].append(s)
+
+        visited = [0 for _ in range(n)]
+
+        visited[0] = True
+        r = dfs(0, adj_list, hasApple)
+        if r > 0:
+            return (r-1)*2
+        else:
+            return 0
             
