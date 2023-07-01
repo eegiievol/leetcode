@@ -15,27 +15,42 @@
 
 # Output: [1,2,3,4,5]
 
-class Solution:
-    def treeToDoublyList(self, root: 'Node') -> 'Node':
-        def helper(node):            
-            if node:
-                helper(node.left)
-                if self.last:
-                    #linking cur & last node
-                    self.last.right = node
-                    node.left = self.last
-                else:
-                    #case: leftmost branch
-                    self.head = node        
-                self.last = node
-                helper(node.right)
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+"""
+
+class Solution:   
+    def __init__(self):
+        self.prev = None
+        self.head = None
         
+    def treeToDoublyList(self, root: 'Optional[Node]') -> 'Optional[Node]':        
+        def helper(root):
+            if not root:                
+                return 
+                
+            #INORDER TRAVERSAL
+            helper(root.left)
+            if not self.prev:
+                self.head = root
+            else:                
+                root.left = self.prev
+                self.prev.right = root
+            self.prev = root  
+            helper(root.right)
+    
         if not root:
-            return None    
-        
-        self.first, self.last = None, None
-        
+            return None
+
         helper(root)
-        self.last.right = self.head
-        self.head.left = self.last
+        self.prev.right = self.head
+        self.head.left = self.prev
+        
         return self.head
+        
+        
