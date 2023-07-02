@@ -6,33 +6,29 @@ The "linked list" should use the same TreeNode class where the right child point
 The "linked list" should be in the same order as a pre-order traversal of the binary tree.
 '''
 
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
     def flatten(self, root: Optional[TreeNode]) -> None:
         """
         Do not return anything, modify root in-place instead.
         """
-        def helper(cur): 
-            #base case:1
-            if cur.left == None and cur.right == None:
-                return cur            
-            #base case:2
-            if cur.left == None:
-                return helper(cur.right) 
-            #base case:3
-            if cur.right == None:              
-                cur.right = cur.left
-                cur.left = None
-                return helper(cur.right)
-            
-            #main part
-            tail = helper(cur.left)
-            tail.right = cur.right
-            cur.right = cur.left
-            cur.left = None
+        def helper(root):
+            if not root:
+                return None
+            if not root.left and not root.right:
+                return root
+            left = helper(root.left)
+
+            if left:
+                left.right = root.right
+                root.right = root.left
+                root.left = None
+
+            return helper(root.right)
         
-            return helper(cur.right)
-        
-        if root == None:
-            return 
-        
-        return helper(root)
+        helper(root)
