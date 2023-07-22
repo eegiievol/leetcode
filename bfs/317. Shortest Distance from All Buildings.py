@@ -6,7 +6,7 @@ class Solution:
             steps=0
             distance={start:0} 
             visited=[]
-            bld_visited=0 #visited buildings so far
+            bld_visited=0 #visited buildings so far - test local
             
             q=deque()
             q.append(start)
