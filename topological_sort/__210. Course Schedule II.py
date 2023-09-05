@@ -13,22 +13,22 @@
 
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        indegree = defaultdict(int)
+        orders = []
+        indegree = [0 for _ in range(numCourses)]
         neighbors = defaultdict(list)
+        for c, p in prerequisites:
+            indegree[c] += 1
+            neighbors[p].append(c)
+        q = deque()
+        for c in range(numCourses):
+            if indegree[c] == 0:
+                q.append(c)
 
-        for d,s in prerequisites:
-            neighbors[s].append(d)
-            indegree[d] += 1
-            indegree[s] = indegree.get(s, 0)
-        
-        q = deque([i for i in range(numCourses) if indegree[i] == 0])
-        ans = []
-        taken = 0
         while q:
             popped = q.popleft()
-            ans.append(popped)
+            orders.append(popped)
             for nei in neighbors[popped]:
                 indegree[nei] -= 1
                 if indegree[nei] == 0:
                     q.append(nei)
-        return ans if len(ans) == numCourses else []
+        return orders if len(orders) == numCourses else []
